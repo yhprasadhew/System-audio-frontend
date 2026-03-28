@@ -1,14 +1,15 @@
 import './app.css'
 import Adminpage from './components/Adminpage'
-import { BrowserRouter ,Routes } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
-
   return (
     <BrowserRouter>
-      <Routes path = '/*'>
-      <Routes path = 'admin/*' element={<Adminpage/>}/>
-      </Routes> 
+      <Routes>
+        <Route path="/admin/*" element={<Adminpage />} />
+        <Route path="/" element={<h1>Home page</h1>} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
+      </Routes>
     </BrowserRouter>
   )
 }

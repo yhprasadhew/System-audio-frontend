@@ -1,13 +1,14 @@
 import './app.css'
 import Adminpage from './components/Adminpage'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter ,Routes } from 'react-router-dom'
 
 function App() {
+
   return (
     <BrowserRouter>
-      <div>
-        <Adminpage />
-      </div>
+      <Routes path = '/*'>
+      <Routes path = 'admin/*' element={<Adminpage/>}/>
+      </Routes> 
     </BrowserRouter>
   )
 }

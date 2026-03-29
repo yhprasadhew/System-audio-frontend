@@ -15,7 +15,7 @@ export default function Header() {
       <div className="flex items-center justify-center gap-6">
         <Link to="/contact" className="text-gray-600 hover:text-gray-800">Contact</Link>
         <Link to="/items" className="text-gray-600 hover:text-gray-800">Items</Link>
-        <Link to="/admin" className="text-gray-600 hover:text-gray-800">Admin</Link>
+        <Link to="/help" className="text-gray-600 hover:text-gray-800">Help</Link>
       </div>
 
     </header>

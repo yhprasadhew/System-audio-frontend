@@ -56,6 +56,7 @@ export default function Adminpage() {
           <Route path="booking" element={<h1 className="text-white text-2xl">Booking Page</h1>} />
           <Route path="items" element={<AdminItempage />} />
           <Route path="users" element={<h1 className="text-white text-2xl">Users Page</h1>} />
+          <Route path="items/add" element={<AdminaddItem />} />
         </Routes>
 
         

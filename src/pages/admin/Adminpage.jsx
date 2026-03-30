@@ -4,6 +4,7 @@ import { FaBookOpen } from "react-icons/fa6";
 import { IoBagCheckSharp } from "react-icons/io5";
 import { FaUserShield } from "react-icons/fa";
 import { Routes, Route, Link } from "react-router-dom";
+import AdminItempage from "./adminItem";
 
 export default function Adminpage() {
 
@@ -48,12 +49,12 @@ export default function Adminpage() {
       </div>
 
       {/* Main Content */}
-      <div className='flex-1 w-[calc(100vw-260px)] h-full bg-red-900 p-4'>
+      <div className='flex-1 w-[calc(100vw-260px)] h-full bg-gray-100 p-4'>
         
         <Routes>
           <Route path="/" element={<h1 className="text-white text-2xl">Dashboard Page</h1>} />
           <Route path="booking" element={<h1 className="text-white text-2xl">Booking Page</h1>} />
-          <Route path="items" element={<h1 className="text-white text-2xl">Items Page</h1>} />
+          <Route path="items" element={<AdminItempage />} />
           <Route path="users" element={<h1 className="text-white text-2xl">Users Page</h1>} />
         </Routes>
 

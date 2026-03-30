@@ -39,7 +39,9 @@ export default function Login() {
 
             toast.success("Login successful! ✅");
 
-            // ✅ Redirect based on role
+          localStorage.setItem("token", response.data.token);
+
+            
             setTimeout(() => {
                 if (role === "admin") {
                     navigate("/admin");

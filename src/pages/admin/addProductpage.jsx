@@ -144,12 +144,7 @@ export default function AdminaddItem() {
         {/* Cancel Button */}
         <button 
           onClick={() => {
-            setProductKey("");
-            setName("");
-            setPrice(0);
-            setCategory("audio");
-            setDimensions("");
-            setDescription("");
+            navigate("/admin/items"); // FIXED: navigate back to items page
           }}
           className="w-full bg-gray-500 text-white font-bold py-2 rounded hover:bg-red-500 transition"
         >

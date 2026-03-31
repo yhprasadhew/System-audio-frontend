@@ -1,8 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 
 export default function AdminaddItem() {
+
+   const navigate = useNavigate();
 
   const [productKey, setProductKey] = useState("");
   const [name, setName] = useState("");
@@ -49,7 +53,7 @@ export default function AdminaddItem() {
       });
 
       toast.success(" Item added successfully!");
-      
+      navigate("/admin/items"); // FIXED: navigate after success 
 
       // ✅ reset AFTER success
       setProductKey("");

@@ -101,7 +101,7 @@ export default function AdminaddItem() {
             setPrice(value === "" ? 0 : Number(value));
           }}
           type="number"
-          placeholder="0"
+          placeholder="Price"
           min="0"
           className="w-full border-2 border-gray-300 p-2 rounded focus:outline-none focus:border-green-500"
         />

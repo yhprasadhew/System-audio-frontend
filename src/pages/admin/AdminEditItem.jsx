@@ -16,7 +16,7 @@ export default function AdminEditItem() {
 
   const token = localStorage.getItem("token");
 
-  // ✅ Load product data
+  //  Load product data
   useEffect(() => {
     axios.get(`http://localhost:3000/api/products/${id}`, {
       headers: {
@@ -39,7 +39,7 @@ export default function AdminEditItem() {
     });
   }, [id]);
 
-  // ✅ Update product
+  //  Update product
   async function handleUpdate() {
     try {
       await axios.put(

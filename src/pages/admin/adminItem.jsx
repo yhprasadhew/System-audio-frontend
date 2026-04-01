@@ -34,12 +34,11 @@ export default function AdminItempage() {
     axios.delete(`http://localhost:3000/api/products/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
-       
       }
     })
     .then(() => {
       alert("Deleted!");
-      window.location.reload(); // refresh the page
+      fetchItems(); // ✅ better than reload
     })
     .catch((err) => console.error(err));
   }
@@ -82,7 +81,6 @@ export default function AdminItempage() {
         <tbody>
           {paginatedItems.map((item) => (
             <tr key={item._id} className="text-center">
-
               <td className="border p-2">{item.productkey}</td>
               <td className="border p-2">{item.name}</td>
               <td className="border p-2">{item.price}</td>
@@ -91,7 +89,7 @@ export default function AdminItempage() {
               <td className="border p-2 flex gap-2 justify-center">
 
                 {/* ✏️ EDIT */}
-                <Link to={`edit/${item._id}`}>
+                <Link to={`/admin/items/edit/${item._id}`}>
                   <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
                     Edit
                   </button>
@@ -112,7 +110,7 @@ export default function AdminItempage() {
       </table>
 
       {/* 📄 PAGINATION */}
-      <div className="flex gap-2 mt-4 bottom-1 justify-center">
+      <div className="absolute bottom-4 left-0 w-full flex gap-2 justify-center">
         <button
           onClick={() => setPage(page - 1)}
           disabled={page === 1}

@@ -32,6 +32,7 @@ function App() {
           <Route path="/admin/*" element={<Adminpage />} />
           <Route path="/*" element={<Homepage />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>

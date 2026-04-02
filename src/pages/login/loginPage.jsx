@@ -1,109 +1,110 @@
 import { useState } from "react";
 import "./login.css";
-import axios from "axios";  
+import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");    
-    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-        const loadingToast = toast.loading("Logging in...");
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        const backendUrl = import.meta.env.VITE_BACKEND_URL  //👌render bend url plugin
-        
-        axios.post(`${backendUrl}/api/users/login`, {
-            email: email,
+    const loadingToast = toast.loading("Logging in...");
 
-            password: password
-        })
-        .then(response => {
-            toast.dismiss(loadingToast);
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-            console.log("FULL RESPONSE:", response.data);
+    axios.post(`${backendUrl}/api/users/login`, {
+      email,
+      password
+    })
+    .then((response) => {
 
-            // ✅ Save token
-            const token = response.data.token;
-            localStorage.setItem("token", token);
+      toast.dismiss(loadingToast);
 
-            // ✅ Decode token
-            const decoded = jwtDecode(token);
-            console.log("DECODED:", decoded);
+      const token = response.data.token;
 
-            const role = decoded.role;
+      // ✅ Save token
+      localStorage.setItem("token", token);
 
-            // ✅ Save role
-            localStorage.setItem("role", role);
+      // ✅ Decode token
+      const decoded = jwtDecode(token);
+      const role = decoded.role;
 
-            toast.success("Login successful! ✅");
+      localStorage.setItem("role", role);
 
-          localStorage.setItem("token", response.data.token);
+      toast.success("Login successful! ✅");
 
-            
-            setTimeout(() => {
-                if (role === "admin") {
-                    navigate("/admin");
-                } else {
-                    navigate("/");
-                }
-            }, 1500);
-        })
-        .catch(error => {
-            toast.dismiss(loadingToast);
+      // ✅ Redirect based on role
+      setTimeout(() => {
+        if (role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      }, 1200);
+    })
+    .catch((error) => {
+      toast.dismiss(loadingToast);
+      console.error(error);
+      toast.error("Invalid email or password ❌");
+    });
+  };
 
-            console.error("Login failed:", error.response || error.message);
-            toast.error("Invalid email or password ❌");
-        });
-    };
+  return (
+    <div className="bg-picture">
 
-    return (
-        <div className="bg-picture">
-            
-            <div className="w-[400px] p-6 bg-white rounded-lg shadow-lg">
-                
-                <img 
-                    src="/logo.jpg" 
-                    alt="Login Icon" 
-                    className="w-16 h-16 mx-auto mb-4 rounded-full object-cover shadow-md" 
-                />
+      <div className="login-box">
 
-                <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+        {/* 🔥 Logo */}
+        <img 
+          src="/logo.jpg" 
+          alt="logo"
+          className="login-logo"
+        />
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">  
-                    
-                    <input 
-                        type="email" 
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-2 border rounded-lg"
-                        required
-                    />
+        {/* 🔥 Title */}
+        <h2 className="login-title">Welcome Back </h2>
 
-                    <input 
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-4 py-2 border rounded-lg"
-                        required
-                    />
+        {/* 🔥 Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-                    <button 
-                        type="submit" 
-                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded"
-                    >
-                        Login
-                    </button>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-                </form>
-            </div>  
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        </div>
-    );
+          <button type="submit">
+            Login
+          </button>
+
+        </form>
+
+        {/* 🔗 Register Link */}
+        <p className="text-center text-white mt-2">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-green-300 font-semibold hover:underline">
+            Register
+          </Link>
+        </p>
+
+      </div>
+
+    </div>
+  );
 }

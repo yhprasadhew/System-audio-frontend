@@ -15,8 +15,11 @@ export default function Login() {
 
         const loadingToast = toast.loading("Logging in...");
 
-        axios.post("http://localhost:3000/api/users/login", {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL  //👌render bend url plugin
+        
+        axios.post(`${backendUrl}/api/users/login`, {
             email: email,
+
             password: password
         })
         .then(response => {

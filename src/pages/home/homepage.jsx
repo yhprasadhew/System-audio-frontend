@@ -7,7 +7,7 @@ import Help from "./help";
 
 export default function Homepage() {
   return (
-    <div className="w-full min-h-screen flex flex-col bg-gray-100">
+    <div className="w-full min-h-screen flex flex-col bg-primary text-white">
 
       {/* Header */}
       <Header />

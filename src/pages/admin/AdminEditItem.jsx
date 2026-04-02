@@ -16,9 +16,11 @@ export default function AdminEditItem() {
 
   const token = localStorage.getItem("token");
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;  //👌render bend url plugin
   //  Load product data
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/products/${id}`, {
+     
+    axios.get(`${backendUrl}/api/products/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -43,7 +45,7 @@ export default function AdminEditItem() {
   async function handleUpdate() {
     try {
       await axios.put(
-        `http://localhost:3000/api/products/${id}`,
+    (`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`),
         {
           productkey: productKey,
           name,

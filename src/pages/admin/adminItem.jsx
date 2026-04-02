@@ -16,9 +16,10 @@ export default function AdminItempage() {
   useEffect(() => {
     fetchItems();
   }, []);
+   
 
   function fetchItems() {
-    axios.get("http://localhost:3000/api/products", {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -31,7 +32,7 @@ export default function AdminItempage() {
   function handleDelete(id) {
     if (!window.confirm("Are you sure?")) return;
 
-    axios.delete(`http://localhost:3000/api/products/${id}`, {
+    axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

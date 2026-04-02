@@ -46,7 +46,7 @@ export default function AdminaddItem() {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/products", newItem, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/products`, newItem, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -10,7 +10,7 @@ export default function Items() {
         axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
         .then((res) => {
             console.log(res.data);
-            setProducts(res.data); // ✅ store data
+            setProducts(res.data);
         })
         .catch((err) => {
             console.error(err);
@@ -33,10 +33,14 @@ export default function Items() {
                         key={index}
                         className="bg-white p-4 rounded-xl shadow-md hover:shadow-xl transition"
                     >
+                        {/* ✅ FIXED IMAGE */}
                         <img 
-                            src={item.image || "https://picsum.photos/300"} 
+                            src={item.image?.[0] || "https://picsum.photos/300"}
                             alt={item.name}
                             className="w-full h-40 object-cover rounded-lg mb-3"
+                            onError={(e) => {
+                                e.target.src = "https://picsum.photos/300";
+                            }}
                         />
 
                         <h2 className="text-lg font-semibold">

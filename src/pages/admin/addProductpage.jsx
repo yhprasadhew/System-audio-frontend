@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import MediaUpload from "../../utils/mediaupload";
 
 
 export default function AdminaddItem() {
@@ -14,6 +15,8 @@ export default function AdminaddItem() {
   const [category, setCategory] = useState("audio");
   const [dimensions, setDimensions] = useState("");
   const [description, setDescription] = useState("");
+  const [productImages, setProductImages] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   async function handleAddItem() {
 
@@ -28,6 +31,25 @@ export default function AdminaddItem() {
       return;
     }
 
+    if (!productImages || productImages.length === 0) {
+      toast.error("Please select at least one product image");
+      return;
+    }
+
+    setIsUploading(true);
+
+    // Upload all images
+    const imageUrls = [];
+    for (const image of productImages) {
+      const url = await MediaUpload(image);
+      if (!url) {
+        toast.error(`Failed to upload ${image.name}. Please try again.`);
+        setIsUploading(false);
+        return;
+      }
+      imageUrls.push(url);
+    }
+
     // ✅ FIXED: match backend (productkey)
     const newItem = {
       productkey: productKey,
@@ -35,13 +57,15 @@ export default function AdminaddItem() {
       price,
       category,
       dimensions,
-      description
+      description,
+      image: imageUrls
     };
 
     const token = localStorage.getItem("token");
 
     if (!token) {
       toast.error("Please login first!");
+      setIsUploading(false);
       return;
     }
 
@@ -62,10 +86,13 @@ export default function AdminaddItem() {
       setCategory("audio");
       setDimensions(""); 
       setDescription("");
+      setProductImages([]);
 
     } catch (error) {
       console.error("ERROR:", error.response?.data || error.message);
       toast.error("Failed to add item. Please try again.");
+    } finally {
+      setIsUploading(false);
     }
   }
 
@@ -133,12 +160,38 @@ export default function AdminaddItem() {
           className="w-full border-2 border-gray-300 p-2 rounded focus:outline-none focus:border-green-500"
         />
 
+        {/* Product Images */}
+        <div className="flex flex-col gap-2">
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => setProductImages(Array.from(e.target.files))}
+            className="w-full border-2 border-gray-300 p-2 rounded focus:outline-none focus:border-green-500"
+          />
+          {productImages.length > 0 && (
+            <div className="flex gap-2 flex-wrap">
+              {productImages.map((image, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-1">
+                  <img 
+                    src={URL.createObjectURL(image)} 
+                    alt={`Preview ${idx + 1}`} 
+                    className="w-16 h-16 object-cover rounded border"
+                  />
+                  <span className="text-xs text-gray-600">{image.name}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Add Button */}
         <button 
           onClick={handleAddItem}
-          className="w-full bg-green-500 text-white font-bold py-2 rounded hover:bg-green-600 transition"
+          disabled={isUploading}
+          className="w-full bg-green-500 text-white font-bold py-2 rounded hover:bg-green-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          Add Item
+          {isUploading ? "Uploading..." : "Add Item"}
         </button>
 
         {/* Cancel Button */}

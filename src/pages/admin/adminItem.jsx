@@ -12,21 +12,26 @@ export default function AdminItempage() {
 
   const token = localStorage.getItem("token");
 
-  // ✅ Fetch data
-  useEffect(() => {
-    fetchItems();
-  }, []);
-   
-
   function fetchItems() {
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-    .then((res) => setItems(res.data))
-    .catch((err) => console.error(err));
+    .then((res) => {
+      console.log("Fetched items data:", res.data);
+      res.data.forEach(item => {
+        console.log(`Item ${item.name} (${item._id}): images =`, item.image);
+      });
+      setItems(res.data);
+    })
+    .catch((err) => console.error("Error fetching items:", err));
   }
+
+  // ✅ Fetch data
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   // ✅ DELETE
   function handleDelete(id) {
@@ -71,6 +76,7 @@ export default function AdminItempage() {
       <table className="w-full border border-gray-300">
         <thead>
           <tr className="bg-gray-200">
+            <th className="border p-2">Image</th>
             <th className="border p-2">Key</th>
             <th className="border p-2">Name</th>
             <th className="border p-2">Price</th>
@@ -80,8 +86,49 @@ export default function AdminItempage() {
         </thead>
 
         <tbody>
-          {paginatedItems.map((item) => (
+          {paginatedItems.map((item) => {
+            console.log(`Rendering item: ${item.name} with images:`, item.image);
+            return (
             <tr key={item._id} className="text-center">
+              <td className="border p-2">
+                <div className="flex gap-1 justify-center">
+                  {item.image && Array.isArray(item.image) && item.image.length > 0 ? (
+                    // Multiple images stored in 'image' array
+                    item.image.slice(0, 3).map((img, idx) => {
+                      console.log(`Rendering image for ${item.name}: ${img}`);
+                      return (
+                        <img
+                          key={`${item._id}-${idx}`}
+                          src={img}
+                          alt={`${item.name} ${idx + 1}`}
+                          className="w-12 h-12 object-cover rounded"
+                          onError={(e) => {
+                            console.log(`Image failed to load for ${item.name}:`, img);
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      );
+                    })
+                  ) : item.image && !Array.isArray(item.image) ? (
+                    // Single image (old format)
+                    <img
+                      key={`${item._id}-single`}
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover rounded mx-auto"
+                      onError={(e) => {
+                        console.log(`Image failed to load for ${item.name}:`, item.image);
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    // No images
+                    <div className="w-16 h-16 bg-gray-200 rounded mx-auto flex items-center justify-center text-xs text-gray-500">
+                      No Images
+                    </div>
+                  )}
+                </div>
+              </td>
               <td className="border p-2">{item.productkey}</td>
               <td className="border p-2">{item.name}</td>
               <td className="border p-2">{item.price}</td>
@@ -106,7 +153,8 @@ export default function AdminItempage() {
 
               </td>
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
 

@@ -1,18 +1,33 @@
-const { createClient } = require("@supabase/supabase-js")
+// src/utils/mediaupload.jsx
+import { supabase } from "../supabaseClient";
 
-const anon_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxaWtpbHl3enJhZ3p4cXdtd3pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDA2NzcsImV4cCI6MjA5MDcxNjY3N30.Aoj1Yx8FGmE6R-hXHjbUYRnPb8DAR7s5uThu_afFh34"
+export default async function MediaUpload(file) {
+  if (!file) return null;
 
-const supabase_url = "https://tqikilywzragzxqwmwzc.supabase.co"
+  try {
+    const fileName = `${Date.now()}-${file.name}`;
 
-export const supabase = createClient(supabase_url, anon_key)
+    // Upload file
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
 
-export default function MediaUpload(file) {
-   supabase.storage.from("images").upload(file.name, file, {
-      cacheControl: "3600",
-      upsert: false
+    if (error) {
+      console.log("Upload error:", error.message);
+      return null;
+    }
 
-   }).then(() => {
-    const publicUrl = supabase.storage.from("images").getPublicUrl(file.name).data.publicUrl
-    console.log("Public URL:", publicUrl)
-   }
+    // Get public URL
+    const { data } = supabase.storage.from("images").getPublicUrl(fileName);
+
+    console.log("Public URL:", data.publicUrl);
+    return data.publicUrl;
+
+  } catch (err) {
+    console.log("Unexpected error:", err);
+    return null;
+  }
 }

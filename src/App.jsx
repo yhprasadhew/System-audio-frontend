@@ -1,11 +1,11 @@
-import './app.css'
+import './App.css'
 import Adminpage from './pages/admin/Adminpage'
-import Homepage from './pages/home/Homepage'
+import Homepage from './pages/home/homepage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Testing from './components/testing'
-import Login from './pages/login/LoginPage'
+import Login from './pages/login/loginPage'
 import { Toaster } from 'react-hot-toast'
-import Register from './pages/register/Register'
+import Register from './pages/register/register'
 
 function App() {
   return (

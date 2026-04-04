@@ -187,3 +187,4 @@ export default function AdminItempage() {
     </div>
   );
 }
+//multiple images add by array

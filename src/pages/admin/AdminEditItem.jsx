@@ -103,7 +103,8 @@ export default function AdminEditItem() {
           className="bg-gray-400 text-white py-2 rounded hover:bg-red-500"
         >
           Cancel
-        </button>
+        </button> 
+        //cancel button
 
       </div>
     </div>

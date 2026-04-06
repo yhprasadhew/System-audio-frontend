@@ -183,7 +183,7 @@ export default function AdminItempage() {
       <Link to="add">
         <CiCirclePlus className="text-[50px] absolute right-3 bottom-3 cursor-pointer hover:text-green-500" />
       </Link>
-//gg
+
     </div>
   );
 }

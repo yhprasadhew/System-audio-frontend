@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import MediaUpload from "../../utils/mediaupload";
 
-//navigate hook
+//navigate hookk
 export default function AdminaddItem() {
 
    const navigate = useNavigate();

@@ -8,7 +8,7 @@ import MediaUpload from "../../utils/mediaupload";
 export default function AdminaddItem() {
 
    const navigate = useNavigate();
-
+//
   const [productKey, setProductKey] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);

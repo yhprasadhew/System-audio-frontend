@@ -25,10 +25,8 @@ export default function Homepage() {
           />
           <Route path="contact" element={<Contact />} />
           <Route path="items" element={<Items />} />
+          <Route path="help" element={<Help />} />
           <Route path="*" element={<ErrorPage />} />    
-          <Route path="help" element={<Help />} />  
-          
-         
         </Routes>
       </div>
 

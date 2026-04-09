@@ -1,12 +1,12 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import ProductCard from "../../components/productCard"; // make sure the path is correct
 
 export default function Items() { 
     
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        
         axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
         .then((res) => {
             console.log(res.data);
@@ -15,7 +15,6 @@ export default function Items() {
         .catch((err) => {
             console.error(err);
         });
-
     }, []);
 
     return (
@@ -25,36 +24,18 @@ export default function Items() {
                 Products
             </h1>
 
-            {/* 🔥 Product Grid */}
+            {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 
-                {products.map((item, index) => (
-                    <div 
-                        key={index}
-                        className="bg-white p-4 rounded-xl shadow-md hover:shadow-xl transition"
-                    >
-                        {/* ✅ FIXED IMAGE */}
-                        <img 
-                            src={item.image?.[0] || "https://picsum.photos/300"}
-                            alt={item.name}
-                            className="w-full h-40 object-cover rounded-lg mb-3"
-                            onError={(e) => {
-                                e.target.src = "https://picsum.photos/300";
-                            }}
-                        />
-
-                        <h2 className="text-lg font-semibold">
-                            {item.name}
-                        </h2>
-
-                        <p className="text-green-600 font-bold">
-                            LKR {item.price}
-                        </p>
-
-                        <p className="text-gray-500 text-sm">
-                            {item.description}
-                        </p>
-                    </div>
+                {products.map((item) => (
+                    <ProductCard
+                        key={item._id}        // must be _id from backend
+                        id={item._id}         // used for navigation
+                        name={item.name}
+                        price={item.price}
+                        description={item.description}
+                        image={item.image?.[0] || "https://picsum.photos/300"}
+                    />
                 ))}
 
             </div>

@@ -32,6 +32,7 @@ export default function ProductOverview() {
                 src={product.image[0]} 
                 style={{ width: "300px", borderRadius: "10px" }}
             />
+            //kk
 
             <h2>LKR {product.price}</h2>
 

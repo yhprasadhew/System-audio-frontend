@@ -37,8 +37,7 @@ export default function ProductOverview() {
             <h2>LKR {product.price}</h2>
 
             <p><strong>Category:</strong> {product.category}</p>
-            <p><strong>Dimensions:</strong> {product.dimensions}</p>
-
+            <p><strong>Dimensions:</strong> {product.dimensions}</p>//possibly add more details like weight, material, etc. if available in the product data    
             <p>{product.description}</p>
         </div>
     );
